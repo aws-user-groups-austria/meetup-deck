@@ -408,6 +408,20 @@ def host_name(event: dict) -> str | None:
     return (s.get("short") or s["name"]) if s else None
 
 
+def short_sponsors(title: str, event: dict) -> str:
+    """A sponsor's full name in an agenda title as its short form, "(Raiffeisen Bank International)" ->
+    "(RBI)", so the line fits. Also without the legal form ("AG", "GmbH") the agenda often leaves out."""
+    for sp in event.get("sponsors", []):
+        short = sp.get("short")
+        if not short:
+            continue
+        full = sp["name"]
+        bare = re.sub(r"\s+(AG|GmbH|SE|Ltd\.?|Inc\.?|KG|GmbH & Co KG)$", "", full)
+        for name in sorted({full, bare}, key=len, reverse=True):
+            title = title.replace(name, short)
+    return title
+
+
 def speakers_line(seg: dict) -> str:
     return ", ".join(s["name"] for s in (seg.get("talk") or {}).get("speakers", []))
 
@@ -660,7 +674,7 @@ def build(inputs: Inputs, out: Path) -> Report:
     rows = [
         {
             "time": f"{hhmm(s['start'], tz)}-{hhmm(s['end'], tz)}",
-            "title": (s.get("talk") or {}).get("title", s["title"]),
+            "title": short_sponsors((s.get("talk") or {}).get("title", s["title"]), event),
             "speakers": speakers_line(s),
             "talk": s["kind"] == "talk",
         }

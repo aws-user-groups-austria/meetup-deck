@@ -166,53 +166,19 @@ def agenda(style: Style, rows: list[dict], heading: str, notes: str) -> Slide:
     slide = new_slide(style, notes, triangle=False)
     text(slide, ["Agenda"], 0.58, 0.45, 6.0, 0.7, TITLE, PURPLE, bold=True, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.BOTTOM)
     text(slide, [heading], 0.58, 1.12, 6.4, 0.35, SMALL, GREY, align=PP_ALIGN.LEFT)
-    # One text box, one paragraph per row: the time, a tab, the title. A hanging indent keeps a
-    # wrapped title under the title column, and every row starts the same space below the last,
-    # so PowerPoint does the line breaks and nothing depends on guessing how long a title runs.
-    col = 1.87  # where the titles start, from the box's left edge (the times take the rest)
-    size = BODY if len(rows) <= 8 else SMALL
-    box = slide.shapes.add_textbox(Inches(0.58), Inches(1.62), Inches(8.84), Inches(3.75))
-    tf = box.text_frame
-    tf.word_wrap = True
-    for side in ("margin_left", "margin_right", "margin_top", "margin_bottom"):
-        setattr(tf, side, 0)
-    first = True
-
-    def para(indent_first: bool):
-        nonlocal first
-        p = tf.paragraphs[0] if first else tf.add_paragraph()
-        first = False
-        p.alignment = PP_ALIGN.LEFT
-        p.line_spacing = 1.0
-        ppr = p._p.get_or_add_pPr()
-        ppr.set("marL", str(Inches(col)))
-        ppr.set("indent", str(-Inches(col)) if indent_first else "0")
-        tabs = ppr.find(qn("a:tabLst"))
-        if tabs is None:
-            tabs = ppr.makeelement(qn("a:tabLst"), {})
-            ppr.insert(0, tabs)
-        tab = tabs.makeelement(qn("a:tab"), {"pos": str(Inches(col)), "algn": "l"})
-        tabs.append(tab)
-        return p
-
-    def run(p, s: str, pt: float, color, bold: bool) -> None:
-        r = p.add_run()
-        r.text = s
-        r.font.name = FONT
-        r.font.size = Pt(pt)
-        r.font.bold = bold
-        r.font.color.rgb = color
-
+    # Every row the same height, room for the title and a speakers line, so the times on the left are
+    # evenly spaced whatever a row holds; the rows fill the space under the heading. One text box per
+    # row for the time and one for the title (+ speakers), both anchored at the row's top.
+    top, bottom = 1.6, 5.5
+    pitch = (bottom - top) / max(1, len(rows))
+    size = BODY if pitch >= 0.46 else SMALL
     for i, r in enumerate(rows):
-        p = para(True)
-        p.space_before = Pt(0 if i == 0 else 9)
-        run(p, r["time"], size, PURPLE, True)
-        run(p, "\t", size, WHITE, False)
-        run(p, r["title"], size, WHITE, bool(r.get("talk")))
+        y = top + i * pitch
+        text(slide, [r["time"]], 0.58, y, 1.75, pitch, size, PURPLE, bold=True, align=PP_ALIGN.LEFT)
+        lines: list = [(r["title"], {"bold": bool(r.get("talk"))})]
         if r.get("speakers"):
-            q = para(False)
-            q.space_before = Pt(1)
-            run(q, r["speakers"], SMALL, GREY, False)
+            lines.append((r["speakers"], {"size": SMALL, "color": GREY}))
+        text(slide, lines, 2.45, y, 7.0, pitch, size, WHITE, align=PP_ALIGN.LEFT)
     return slide
 
 
