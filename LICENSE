@@ -1,0 +1,52 @@
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+
+Copyright (c) 2026 AWS User Groups Austria, Linda Mohamed and contributors
+
+This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike
+4.0 International License.
+
+You are free to:
+
+  Share: copy and redistribute the material in any medium or format
+  Adapt: remix, transform, and build upon the material
+
+Under the following terms:
+
+  Attribution: You must give appropriate credit, provide a link to the license,
+  and indicate if changes were made. You may do so in any reasonable manner, but
+  not in any way that suggests the licensor endorses you or your use.
+
+  NonCommercial: You may not use the material for commercial purposes. This
+  includes use by commercial entities (regardless of team size) for activities
+  that serve commercial interests, marketing, or revenue-generating purposes.
+
+  ShareAlike: If you remix, transform, or build upon the material, you must
+  distribute your contributions under the same license as the original.
+
+  No additional restrictions: You may not apply legal terms or technological
+  measures that legally restrict others from doing anything the license permits.
+
+Intended use:
+
+  This project was built by community volunteers for the AWS User Groups in
+  Austria. It is shared freely for volunteer-run AWS User Groups, cloud community
+  groups, and other non-commercial community organizations to use, adapt, and
+  build upon for their own meetups.
+
+  Commercial use, including use by companies, corporate teams, or any
+  organization where the activity serves a commercial purpose, is not permitted
+  without explicit written permission from the copyright holder.
+
+Not covered by this license:
+
+  Photos, names and biographies of people, and the logos and trademarks of
+  hosts, sponsors and other companies, including Amazon Web Services. They belong
+  to the people and companies they show, are used here with their agreement for
+  the meetups of the AWS User Groups in Austria, and are not licensed to anyone
+  else. If you reuse this project, replace them with your own.
+
+  The slide deck template of the AWS User Group Vienna is not part of this
+  repository and is not licensed here. The tests build their own template.
+
+To view the full license text, visit:
+https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
