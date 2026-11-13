@@ -77,6 +77,9 @@ neither the real deck nor the network:
 uv run pytest
 ```
 
+The "CI" workflow runs the same tests on every pull request and every push to
+`main`.
+
 ## Layout
 
 | Path | What |
@@ -86,3 +89,12 @@ uv run pytest
 | `tests/` | pytest, against a generated template |
 
 Python 3.12 or later, `python-pptx` 1.x, Pillow, managed with `uv`.
+
+## Licence
+
+[CC BY-NC-SA 4.0](LICENSE): free for volunteer-run user groups and other
+non-commercial communities to use and adapt, with attribution and under the same
+licence. Not for commercial use without written permission.
+
+The licence covers the tool. The group's slide deck template stays private and
+is not included, and neither are photos of people or company logos.
